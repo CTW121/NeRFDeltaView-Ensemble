@@ -1,0 +1,96 @@
+dataset:
+  basedir: cache/nerf_synthetic/chair
+  cachedir: cache/chaircache200
+  far: 5
+  half_res: false
+  near: 2
+  no_ndc: true
+  testskip: 1
+  type: blender
+experiment:
+  id: chair
+  logdir: logs
+  num_models_secondary: 3
+  print_every: 2500
+  randomseed: 42
+  save_every: 10000
+  train_iters: 200000
+  validate_every: 2500
+models:
+  coarse:
+    hidden_size: 128
+    include_input_dir: true
+    include_input_xyz: true
+    log_sampling_dir: true
+    log_sampling_xyz: true
+    num_encoding_fn_dir: 4
+    num_encoding_fn_xyz: 10
+    num_layers: 8
+    skip_connect_every: 3
+    type: FlexibleNeRFModel
+    use_viewdirs: true
+  fine:
+    hidden_size: 128
+    include_input_dir: true
+    include_input_xyz: true
+    log_sampling_dir: true
+    log_sampling_xyz: true
+    num_encoding_fn_dir: 4
+    num_encoding_fn_xyz: 10
+    num_layers: 8
+    skip_connect_every: 3
+    type: FlexibleNeRFModel
+    use_viewdirs: true
+models_secondary:
+  coarse:
+    hidden_size: 64
+    include_input_dir: true
+    include_input_xyz: true
+    log_sampling_dir: true
+    log_sampling_xyz: true
+    num_encoding_fn_dir: 4
+    num_encoding_fn_xyz: 10
+    num_layers: 4
+    skip_connect_every: 5
+    type: FlexibleNeRFModel
+    use_viewdirs: true
+  fine:
+    hidden_size: 64
+    include_input_dir: true
+    include_input_xyz: true
+    log_sampling_dir: true
+    log_sampling_xyz: true
+    num_encoding_fn_dir: 4
+    num_encoding_fn_xyz: 10
+    num_layers: 4
+    skip_connect_every: 5
+    type: FlexibleNeRFModel
+    use_viewdirs: true
+nerf:
+  encode_direction_fn: positional_encoding
+  encode_position_fn: positional_encoding
+  train:
+    chunksize: 90000
+    lindisp: false
+    num_coarse: 64
+    num_fine: 128
+    num_random_rays: 2048
+    perturb: true
+    radiance_field_noise_std: 0.2
+    white_background: false
+  use_viewdirs: true
+  validation:
+    chunksize: 20000
+    img: 168
+    lindisp: false
+    num_coarse: 64
+    num_fine: 128
+    perturb: false
+    radiance_field_noise_std: 0.0
+    white_background: false
+optimizer:
+  lr: 0.005
+  type: Adam
+scheduler:
+  lr_decay: 250
+  lr_decay_factor: 0.1
