@@ -6,7 +6,9 @@ Uncertainty visualization provides users with an in-depth understanding of the d
 
 ## Prerequisites
 
-<!-- TO BE WRITTEN -->
+To run the NeRFDeltaView Ensemble visualization tool application, ensure you have met the following requirements:
+- <!-- TO BE WRITTEN -->
+- <!-- TO BE WRITTEN -->
 
 ## Run the Visualization tool application
 
