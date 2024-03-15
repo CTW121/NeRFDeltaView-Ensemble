@@ -23,9 +23,13 @@ To run the NeRFDeltaView Ensemble visualization tool application, follow these s
 
 2. <!-- VTK_writer -->
 
-3. <!-- TO BE WRITTEN -->
+3. <!-- Preprocess 2DTF heatmap -->
+
+4. <!-- TO BE WRITTEN -->
 
 <!-- WRITE THE EXECUTION CODE -->
+
+<!-- Put the FIGURE 3D Volumetric data? -->
 
 Following are the screenshots of the NeRFDeltaView Ensemble visualization tool application:
 ![NeRFDeltaView_Ensemble_A](https://github.com/CTW121/NeRFDeltaView-Ensemble/blob/master/images/NeRFDeltaView__Ensemble_A.png)
