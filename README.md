@@ -11,6 +11,7 @@ Ensure you have met the following requirements:
 - You have installed **Python 3.8 or higher**.
 - You have installed **PyTorch**.
 - You have installed **PyQt6**.
+- You have installed **VTK from Python wrappers**.
 
 We recommend running the application using **conda**.
 
