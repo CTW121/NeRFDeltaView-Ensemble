@@ -7,16 +7,22 @@ Uncertainty visualization provides users with an in-depth understanding of the d
 ## Prerequisites
 
 To run the NeRFDeltaView Ensemble visualization tool application, ensure you have met the following requirements:
-- <!-- TO BE WRITTEN -->
-- <!-- TO BE WRITTEN -->
+- You have a **Windows/Linux/Mac** machine.
+- You have installed **Python 3.8 or higher**.
+- You have installed **PyTorch**
+- You have installed **PyQt6**
+
+We recommend running the application using conda.
 
 ## Run the Visualization tool application
 
 To run the NeRFDeltaView Ensemble visualization tool application, follow these steps:
 
-1. <!-- VTK WRITER -->
+1. <!-- PUT THE TRAIN MODEL IN VTK WRITER FOLDER -->
 
-2. <!-- TO BE WRITTEN -->
+2. <!-- VTK WRITER -->
+
+3. <!-- TO BE WRITTEN -->
 
 ![NeRFDeltaView_Ensemble_A](https://github.com/CTW121/NeRFDeltaView-Ensemble/blob/master/images/NeRFDeltaView__Ensemble_A.png)
 
