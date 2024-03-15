@@ -9,10 +9,10 @@ Uncertainty visualization provides users with an in-depth understanding of the d
 Ensure you have met the following requirements:
 - You have a **Windows/Linux/Mac** machine.
 - You have installed **Python 3.8 or higher**.
-- You have installed **PyTorch**
-- You have installed **PyQt6**
+- You have installed **PyTorch**.
+- You have installed **PyQt6**.
 
-We recommend running the application using conda.
+We recommend running the application using **conda**.
 
 ## Run the Visualization tool application
 
