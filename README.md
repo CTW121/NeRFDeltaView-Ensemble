@@ -6,7 +6,7 @@ Uncertainty visualization provides users with an in-depth understanding of the d
 
 ## Prerequisites
 
-To run the NeRFDeltaView Ensemble visualization tool application, ensure you have met the following requirements:
+Ensure you have met the following requirements:
 - You have a **Windows/Linux/Mac** machine.
 - You have installed **Python 3.8 or higher**.
 - You have installed **PyTorch**
