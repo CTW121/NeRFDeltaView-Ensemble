@@ -19,9 +19,9 @@ We recommend running the application using [**conda**](https://docs.conda.io/en/
 
 To run the NeRFDeltaView Ensemble visualization tool application, follow these steps:
 
-1. <!-- PUT THE TRAIN MODEL IN THE VTK WRITER FOLDER -->
+1. <!-- PUT THE TRAIN MODEL IN THE VTK_writer FOLDER -->
 
-2. <!-- VTK WRITER -->
+2. <!-- VTK_writer -->
 
 3. <!-- TO BE WRITTEN -->
 
