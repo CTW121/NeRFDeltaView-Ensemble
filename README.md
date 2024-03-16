@@ -21,7 +21,7 @@ To run the NeRFDeltaView Ensemble visualization tool application, follow these s
 
 1. Copy the trained model (checkpoint and yml files) from [NeRF Uncertainty Ensemble](https://github.com/CTW121/NeRF-Uncertainty-Ensemble) to [VTK_writer](https://github.com/CTW121/NeRFDeltaView-Ensemble/tree/master/VTK_writer) folder.
 
-2. Run '''python vtk_writer.py'''<!-- VTK_writer -->
+2. Run `python vtk_writer.py` to generate the <!-- VTK_writer -->
 
 3. <!-- Preprocess 2DTF heatmap -->
 
