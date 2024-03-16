@@ -19,13 +19,13 @@ We recommend running the application using [**conda**](https://docs.conda.io/en/
 
 To run the NeRFDeltaView Ensemble visualization tool application, follow these steps:
 
-1. Copy the trained model (checkpoint and yml files) from [NeRF Uncertainty Ensemble](https://github.com/CTW121/NeRF-Uncertainty-Ensemble) to [VTK_writer](https://github.com/CTW121/NeRFDeltaView-Ensemble/tree/master/VTK_writer) folder.
+1. Copy the trained model (checkpoint and yml files) from [NeRF Uncertainty Ensemble](https://github.com/CTW121/NeRF-Uncertainty-Ensemble) to the [VTK_writer](https://github.com/CTW121/NeRFDeltaView-Ensemble/tree/master/VTK_writer) folder.
 
-2. In [VTK_writer](https://github.com/CTW121/NeRFDeltaView-Ensemble/tree/master/VTK_writer) folder, run `python vtk_writer.py` to generate the VTK 3D volumetric data files (estimated opacity, color, and density). Then, copy those VTK 3D volumetric data files to [data](https://github.com/CTW121/NeRFDeltaView-Ensemble/tree/master/data) folder.
+2. Within the [VTK_writer](https://github.com/CTW121/NeRFDeltaView-Ensemble/tree/master/VTK_writer) folder, execute `python vtk_writer.py` to generate the VTK 3D volumetric data files (estimated opacity, color, and density). Then, copy these VTK 3D volumetric data files to the [data](https://github.com/CTW121/NeRFDeltaView-Ensemble/tree/master/data) folder.
 
-3. Run `Python preprocessing_2DTF_heatmap.py` to generate the color and density means and standard deviations CSV files for the heatmap visualization. Then, copy those CSV files to [data](https://github.com/CTW121/NeRFDeltaView-Ensemble/tree/master/data) folder.
+3. Run `Python preprocessing_2DTF_heatmap.py` to produce CSV files containing color and density means, as well as standard deviations for heatmap visualization. Subsequently, copy these CSV files to the [data](https://github.com/CTW121/NeRFDeltaView-Ensemble/tree/master/data) folder.
 
-4. Run `python NeRFDeltaView.py` to execute the visualization tool application.
+4. Run `python NeRFDeltaView.py` to launch the visualization tool application.
 
 Following are the screenshots of the NeRFDeltaView Ensemble visualization tool application:
 ![NeRFDeltaView_Ensemble_A](https://github.com/CTW121/NeRFDeltaView-Ensemble/blob/master/images/NeRFDeltaView__Ensemble_A.png)
