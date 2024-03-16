@@ -118,21 +118,10 @@ def main():
     original_orient = helpers.vtk_get_orientation(renderer_isosurface)
     print("original_orient: ", original_orient["orientation"])
 
-    # default_view_up = [0.0, 0.0, 1.0]
-    # camera.SetViewUp(default_view_up)
-
-    # camera.SetPosition(0.0, 0.0, 0.0)
-    # camera.SetFocalPoint(0.0, 1.0, 0.0)
-    # camera.SetViewUp([0.0, 1.0, 0.0])
-
-    # azimuth = [0, 45, 90]
-    # elevation = [0, 45, 90]
     azimuth = [i for i in range(0, 360+1, 15)]    # east-west
     elevation = [i for i in range(0, 360+1, 15)]  # north-south
     azimuth_len = len(azimuth)
     elevation_len = len(elevation)
-    # print("azimuth: ", azimuth)
-    # print("elevation: ", elevation)
 
     means_color = np.zeros((azimuth_len, elevation_len))
     standard_deviations_color = np.zeros((azimuth_len, elevation_len))
@@ -156,9 +145,6 @@ def main():
             # https://discourse.vtk.org/t/vtkrenderer-error/6143/2
             view_up_vector = camera.GetViewUp()
             view_plane_normal = camera.GetViewPlaneNormal()
-            # print("view_up_vector: ", view_up_vector)
-            # print("view_plane_normal: ", view_plane_normal)
-            # print("angle", angle_between_vectors(view_up_vector, view_plane_normal))
 
             angle, cos_similarity = similarity_vectors(view_up_vector, view_plane_normal)
             # print("azimuth: {}  | elevation: {} | angle: {:.2f} | cosine similarity: {:.2f}".format(azimuth[i], elevation[j], angle, cos_similarity))
@@ -214,9 +200,6 @@ def main():
             
             means_density[i][j] = mean_density
             standard_deviations_density[i][j] = standard_deviation_density
-
-    # print("means_color: ", means_color)
-    # print("standard_deviations_color: ", standard_deviations_color)
 
     # Define the file paths including the folder
     color_means_file = os.path.join(data_folder, "color_means.csv")
