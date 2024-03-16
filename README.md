@@ -27,12 +27,13 @@ To run the NeRFDeltaView Ensemble visualization tool application, follow these s
 
 4. Run `python NeRFDeltaView.py` to execute the visualization tool application.
 
-The color and density uncertainties are represented by the mean of the pairwise Euclidean distances because it considers a measure of variability between sample points within the color space. Figure below illustrates computation of color uncertainty $\delta_{\boldsymbol{c}}$ and density uncertainty $\delta_\sigma$ 3D grids.
-![3D grid for color and density uncertainties](https://github.com/CTW121/NeRFDeltaView-Ensemble/blob/master/images/Ensemble_3D_regular_grids_color_density_uncertainties.png)
-
 Following are the screenshots of the NeRFDeltaView Ensemble visualization tool application:
 ![NeRFDeltaView_Ensemble_A](https://github.com/CTW121/NeRFDeltaView-Ensemble/blob/master/images/NeRFDeltaView__Ensemble_A.png)
 
 ![NeRFDeltaView_Ensemble_B](https://github.com/CTW121/NeRFDeltaView-Ensemble/blob/master/images/NeRFDeltaView__Ensemble_B.png)
 
 The demo videos can be found in [demo_video](https://github.com/CTW121/NeRFDeltaView-Ensemble/tree/master/demo_video).
+
+## Color and Density Uncertainties Estimation
+The color and density uncertainties are represented by the mean of the pairwise Euclidean distances because it considers a measure of variability between sample points within the color space. Figure below illustrates computation of color uncertainty $\delta_{\boldsymbol{c}}$ and density uncertainty $\delta_\sigma$ 3D grids.
+![3D grid for color and density uncertainties](https://github.com/CTW121/NeRFDeltaView-Ensemble/blob/master/images/Ensemble_3D_regular_grids_color_density_uncertainties.png)
