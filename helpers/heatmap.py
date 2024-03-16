@@ -13,6 +13,65 @@ from PyQt6.QtWidgets import QApplication, QMainWindow, QVBoxLayout, QWidget
 
 class HeatMap(QVBoxLayout):
     def __init__(self, widget, data, vmin, vmax, data_angles, title, color, file_name):
+        """
+        Initialize a HeatMap object.
+
+        Parameters:
+        -----------
+        widget: QWidget
+            The parent widget to which the heatmap will be added.
+        data: array-like
+            The heatmap data.
+        vmin: float
+            Minimum value of the heatmap.
+        vmax: float
+            Maximum value of the heatmap.
+        data_angles: array-like
+            Angles of the data.
+        title: str
+            Title of the heatmap.
+        color: str
+            Color of the heatmap.
+        file_name: str
+            Name of the file to save the heatmap.
+
+        Attributes:
+        -----------
+        data: array-like
+            The heatmap data.
+        vmin: float
+            Minimum value of the heatmap.
+        vmax: float
+            Maximum value of the heatmap.
+        data_angles: array-like
+            Angles of the data.
+        color: str
+            Color of the heatmap.
+        file_name: str
+            Name of the file to save the heatmap.
+        heatmap_selected_square: None
+            Selected square on the heatmap.
+        azimuth: list
+            Azimuth angles for the heatmap.
+        elevation: list
+            Elevation angles for the heatmap.
+        azimuth_label: list
+            Azimuth angle labels for the heatmap.
+        elevation_label: list
+            Elevation angle labels for the heatmap.
+        _main: QVBoxLayout
+            Main layout for the heatmap widget.
+        fig: Figure
+            Figure for the heatmap.
+        ax: Axes
+            Axes for the heatmap.
+        num_azimuth: int
+            Number of azimuth angles.
+        num_elevation: int
+            Number of elevation angles.
+        rectangles: list
+            List to store rectangles for the heatmap.
+        """
         super().__init__()
 
         # self.data = np.transpose(data)
@@ -78,6 +137,15 @@ class HeatMap(QVBoxLayout):
         # self.fig.savefig(figure_name, format='png')
     
     def create_heatmap(self):
+        """
+        Create the heatmap visualization on the axes.
+
+        This method adds the heatmap visualization to the axes, along with colorbar and annotations.
+
+        Returns:
+        --------
+        None
+        """
         self.heatmap = self.ax.imshow(self.data, cmap=self.color, interpolation='nearest', vmin=self.vmin, vmax=self.vmax)
         self.ax.invert_yaxis()
         cbar_heatmap = self.fig.colorbar(self.heatmap, fraction=0.046, pad=0.04)
@@ -99,6 +167,15 @@ class HeatMap(QVBoxLayout):
         self.ax.text(0.5, 0.5, 'Green rectangle: lower hemisphere', color='green', fontsize=11)
     
     def create_scatter_plot(self):
+        """
+        Create the scatter plot visualization on the axes.
+
+        This method scales the scatter plot data to match the dimensions of the heatmap and adds it to the axes.
+
+        Returns:
+        --------
+        None
+        """
         # Scale the scatter plot data to match the dimensions of the heatmap
         scaled_data_angles = np.zeros((len(self.data_angles),2))
         for i in range(len(self.data_angles)):
@@ -108,19 +185,24 @@ class HeatMap(QVBoxLayout):
         self.scatter_plot_angles = self.ax.scatter(scaled_data_angles[:,0], scaled_data_angles[:,1], color='blue', s=20, edgecolor='none', alpha=1.0)
 
     def selection_square(self, x, y, axis):
+        """
+        Create a selection square around a specified point on the heatmap.
+
+        Parameters:
+        -----------
+        x : int
+            The x-coordinate of the selected point.
+        y : int
+            The y-coordinate of the selected point.
+        axis : matplotlib.axes.Axes
+            The axes on which to draw the selection square.
+
+        Returns:
+        --------
+        None
+        """
         figure = self.ax.figure
         canvas = figure.canvas
-
-        # # Remove the previous rectangle if it exists
-        # if self.heatmap_selected_square is not None:
-        #     self.heatmap_selected_square.remove()
-        #     self.heatmap_selected_square = None
-        # else:
-        #     # axis.add_patch(patches.Rectangle((x - 0.5, y - 0.5), 1, 1, fill=False, edgecolor='black'))
-        #     # self.ax.add_patch(patches.Rectangle((x - 0.5, y - 0.5), 1, 1, fill=False, edgecolor='black'))
-        #     # self.heatmap_selected_square = self.ax.add_patch(Rectangle((x - 0.5, y - 0.5), 1, 1, fill=False, edgecolor='black'))
-        #    self.heatmap_selected_square = Rectangle((x - 0.5, y - 0.5), 1, 1, fill=False, edgecolor='black')
-        #    self.ax.add_patch(self.heatmap_selected_square)
 
         if len(self.rectangles)>0:
             # Remove rectangles
@@ -128,25 +210,6 @@ class HeatMap(QVBoxLayout):
                 rect.remove()
             self.rectangles = []
         else:
-            # if x==90/15 or x==270/15:
-            # if x==0/15 or x==180/15 or x==360/15:
-            #     list_xy = [[x, y],
-            #             [x+24, y], [x, y+24],
-            #             [x-24, y], [x, y-24],
-            #             [x-24, y-24], [x+24, y+24],
-            #             [x-12, y-12], [x+12, y+12],
-            #             [x+24, y-24], [x-24, y+24],
-            #             [x+12, y-12], [x-12, y+12]]
-            # # if x==0 or x==180/15 or x==360/15:
-            # else:
-            #     list_xy = [[x, y], [x, y+24], [x, y-24], 
-            #             [x+24, y], [x-24, y],
-            #             [x+24, y+24], [x+24, y-24],
-            #             [x-24, y+24], [x-24, y-24]]
-            #     # list_xy = np.argwhere(data == data[x,y]).tolist()
-            #     # print(data.shape)
-            #     # print(type(data))
-            #     # print("x: {} | y: {}  | value: {}".format(x, y, data[x][y]))
 
             list_xy = [[x, y]]
 
