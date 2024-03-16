@@ -23,13 +23,12 @@ To run the NeRFDeltaView Ensemble visualization tool application, follow these s
 
 2. In [VTK_writer](https://github.com/CTW121/NeRFDeltaView-Ensemble/tree/master/VTK_writer) folder, run `python vtk_writer.py` to generate the VTK 3D volumetric data files (estimated opacity, color, and density). Then, copy those VTK 3D volumetric data files to [data](https://github.com/CTW121/NeRFDeltaView-Ensemble/tree/master/data) folder.
 
-3. Run `Python preprocessing_2DTF_heatmap.py` to generate the color and density means and standard deviations for the heatmap visualization.
+3. Run `Python preprocessing_2DTF_heatmap.py` to generate the color and density means and standard deviations CSV files for the heatmap visualization. Then, copy those CSV files to [data](https://github.com/CTW121/NeRFDeltaView-Ensemble/tree/master/data) folder.
 
-4. <!-- TO BE WRITTEN -->
+4. Run `python NeRFDeltaView.py` to execute the visualization tool application.
 
-<!-- WRITE THE EXECUTION CODE -->
-
-<!-- Put the FIGURE 3D Volumetric data? -->
+The color and density uncertainties are represented by the mean of the pairwise Euclidean distances because it considers a measure of variability between sample points within the color space. Figure below illustrates computation of color uncertainty $\delta_{\boldsymbol{c}}$ and density uncertainty $\delta_\sigma$ 3D grids.
+![3D grid for color and density uncertainties](https://github.com/CTW121/NeRFDeltaView-Ensemble/blob/master/images/Ensemble_3D_regular_grids_color_density_uncertainties.png)
 
 Following are the screenshots of the NeRFDeltaView Ensemble visualization tool application:
 ![NeRFDeltaView_Ensemble_A](https://github.com/CTW121/NeRFDeltaView-Ensemble/blob/master/images/NeRFDeltaView__Ensemble_A.png)
