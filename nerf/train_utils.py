@@ -117,8 +117,6 @@ def predict_and_render_radiance(
             white_background=getattr(options.nerf, mode).white_background,
         )
         rgb_coarse_secondary_list.append(rgb_coarse_secondary)
-    
-    # print("rgb_coarse_secondary_list: \n", rgb_coarse_secondary_list)
 
 
     rgb_fine_secondary_list = []
@@ -242,31 +240,11 @@ def run_one_iter_of_nerf(
         for batch in batches
     ]
     synthesized_images_ = list(zip(*pred))
-
-    # print("synthesized_images_: ", len(synthesized_images_))
-    # print("len(synthesized_images_[0]): ", len(synthesized_images_[0])) # (800*800) / 80000 = 8 (tuple)
-    # print("len(synthesized_images_[0][0]): ", len(synthesized_images_[0][0]))   # 80000 (torch.Tensor)
-    # print("len(synthesized_images_[0][0][0]): ", len(synthesized_images_[0][0][0])) # 3 (RGB) (torch.Tensor)
-    # print("len(synthesized_images_[7][0][-1]): ", len(synthesized_images_[7][0][-1]))
-    # print("synthesized_images_[7]: ", synthesized_images_[7])
     
     synthesized_images = [
         torch.cat(image, dim=0) if image[0] is not None else (None)
         for image in synthesized_images_[:6]
     ]
-    
-    # print("synthesized_images size(): ", synthesized_images[0].size())  # torch.Size([640000, 3])
-    # print("len(synthesized_images): ", len(synthesized_images))     # 6
-
-    # print("len(synthesized_images_[6]): ", len(synthesized_images_[6])) # (800*800) / 80000 = 8 (tuple)
-    # print("len(synthesized_images_[6][0]): ", len(synthesized_images_[6][0]))    # 3 (depends on number of secondary models) (list)
-    # print("len(synthesized_images_[6][0][0]): ", len(synthesized_images_[6][0][0]))    # 80000  (torch.Tensor)
-    # print("len(synthesized_images_[6][0][0][0]): ", len(synthesized_images_[6][0][0][0]))   # 3 (RGB) (torch.Tensor)
-    # for i in range(len(coarse_model_secondary_list)):
-    #     synthesized_images_coarse_secondary = [
-    #         torch.cat([image], dim=0) if image[0] is not None else None
-    #         for image in synthesized_images_[6][i]
-    #     ]
 
     synthesized_images_coarse_secondary = []
 
@@ -281,22 +259,12 @@ def run_one_iter_of_nerf(
             
             # Append the slice_of_data to images_per_model
             images_per_model.append(slice_of_data)
-        
-        # print("images_per_model: ", type(images_per_model)) # <class 'list'>
-        # print("images_per_model: ", len(images_per_model)) # 8
-        # k = 0
-        # for k in range(len(images_per_model)):
-        #     print("i: {}   |   images_per_model size(): {}".format(k, images_per_model[k].size()))
-        #     k += 1
 
         # Combine the slices of data into a single tensor
         combined_data = torch.cat(images_per_model, dim=0) if images_per_model[0] is not None else None
         
         # Append the combined data to synthesized_images_coarse_secondary
         synthesized_images_coarse_secondary.append(combined_data)
-    
-    # print("len(synthesized_images_coarse_secondary): ", len(synthesized_images_coarse_secondary))   # 3 (depends on number of secondary models) (<class 'list'>)
-    # print("synthesized_images_coarse_secondary[0].size(): ", synthesized_images_coarse_secondary[0].size()) # torch.Size([640000, 3])
     
 
     synthesized_images_fine_secondary = []
@@ -308,55 +276,32 @@ def run_one_iter_of_nerf(
         combined_data = torch.cat(images_per_model, dim=0) if images_per_model[0] is not None else None
         synthesized_images_fine_secondary.append(combined_data)
     
-    # print("len(synthesized_images_fine_secondary): ", len(synthesized_images_fine_secondary))   # 3 (depends on number of secondary models) (<class 'list'>)
-    # print("synthesized_images_fine_secondary[0].size(): ", synthesized_images_fine_secondary[0].size()) # torch.Size([640000, 3])
-    
     if mode == "validation":
-        # print("synthesized_images: \n", synthesized_images)
-        # print("len(synthesized_images): ", len(synthesized_images)) # 6   (<class 'list'>)
-        # print("synthesized_images[0].size(): ", synthesized_images[0].size()) # torch.Size([640000, 3]) (<class torch.Tensor>)
-
-        # print("np.shape (restore_shapes): ", np.shape(np.array(restore_shapes)))  # (6,) <class 'list'>
-        # print("restore_shapes: ", restore_shapes) # [torch.Size([800, 800, 3]), torch.Size([800, 800]), torch.Size([800, 800]), torch.Size([800, 800, 3]), torch.Size([800, 800]), torch.Size([800, 800])]
 
         synthesized_images_valid = [
             image.view(shape) if image is not None else None
             for (image, shape) in zip(synthesized_images, restore_shapes)
         ]
 
-        # print("synthesized_images_valid: ", type(synthesized_images_valid))   # <class 'list'>
-        # print("len(synthesized_images_valid): ", len(synthesized_images_valid)) # 6
-        # print("type(synthesized_images_valid[0]): ", type(synthesized_images_valid[0])) # <torch.Tensor>
-        # print("synthesized_images_valid[0].size(): ", synthesized_images_valid[0].size())   # torch.Size([800, 800, 3])
-
-        # TO-DO: Generate the RESHAPE ([800, 800, 3]) synthesized images for coarse and fine secondary models
         restore_shapes_secondary = []
         for i in range(len(synthesized_images_coarse_secondary)):
             restore_shapes_secondary.append(restore_shapes[0])
-        # print("restore_shapes_secondary: ", restore_shapes_secondary)   # [torch.Size([800, 800, 3]), torch.Size([800, 800, 3]), torch.Size([800, 800, 3])]
 
         synthesized_images_coarse_secondary_valid = [
             image.view(shape) if image is not None else None
             for (image, shape) in zip(synthesized_images_coarse_secondary, restore_shapes_secondary)
         ]
 
-        # print("len(synthesized_images_coarse_secondary_valid): ", len(synthesized_images_coarse_secondary_valid))   # 3 (<class 'list'>)
-        # print("synthesized_images_coarse_secondary_valid[0].size(): ", synthesized_images_coarse_secondary_valid[0].size())   # torch.Size([800, 800, 3]) <class 'torch.Tensor'>
-
         synthesized_images_fine_secondary_valid = [
             image.view(shape) if image is not None else None
             for (image, shape) in zip(synthesized_images_fine_secondary, restore_shapes_secondary)
         ]
-
-
 
         # Returns rgb_coarse, disp_coarse, acc_coarse, rgb_fine, disp_fine, acc_fine
         # (assuming both the coarse and fine networks are used).
         if model_fine:
             synthesized_images_valid.append(synthesized_images_coarse_secondary_valid)
             synthesized_images_valid.append(synthesized_images_fine_secondary_valid)
-
-            #print("tuple(synthesized_images): \n", tuple(synthesized_images))
             return tuple(synthesized_images_valid)
         else:
             # If the fine network is not used, rgb_fine, disp_fine, acc_fine are
