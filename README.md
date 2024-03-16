@@ -15,7 +15,7 @@ Ensure you have met the following requirements:
 
 We recommend running the application using [**conda**](https://docs.conda.io/en/latest/).
 
-## Run the Visualization Tool Application
+## Launch the Visualization Tool Application
 
 To run the NeRFDeltaView Ensemble visualization tool application, follow these steps:
 
