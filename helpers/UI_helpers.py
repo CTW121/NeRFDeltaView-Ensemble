@@ -56,6 +56,15 @@ splitter_dict = {}
 layout_dict = {}
 
 def create_frame(name, style_sheet=None, width=None, height=None):
+    """
+    Creates a QFrame object with optional style sheet, width, and height.
+
+    Parameters:
+        name (str): Name to identify the frame.
+        style_sheet (str, optional): Custom style sheet for the frame. Defaults to None.
+        width (int, optional): Width of the frame. Defaults to None.
+        height (int, optional): Height of the frame. Defaults to None.
+    """
     frame = QFrame()
     frame.setFrameShape(QFrame.Shape.StyledPanel)
 
@@ -71,6 +80,16 @@ def create_frame(name, style_sheet=None, width=None, height=None):
     frame_dict[name] = frame
 
 def create_splitter(name, widget_names, stretch_factors=[], style_sheet=None, orientation='horizontal'):
+    """
+    Creates a QSplitter object with specified widgets, stretch factors, style sheet, and orientation.
+
+    Parameters:
+        name (str): Name to identify the splitter.
+        widget_names (list): Names of the QFrames to add to the splitter.
+        stretch_factors (list, optional): List of tuples specifying stretch factors for widgets. Defaults to [].
+        style_sheet (str, optional): Custom style sheet for the splitter. Defaults to None.
+        orientation (str, optional): Orientation of the splitter ('horizontal' or 'vertical'). Defaults to 'horizontal'.
+    """
     splitter = QSplitter(Qt.Orientation.Horizontal)
     if orientation == 'vertical':
         splitter = QSplitter(Qt.Orientation.Vertical)
@@ -87,6 +106,15 @@ def create_splitter(name, widget_names, stretch_factors=[], style_sheet=None, or
     splitter_dict[name] = splitter
 
 def create_layout(name, frame, splitter=None, layout_type='QH'):
+    """
+    Creates a layout for a QFrame with optional splitter.
+
+    Parameters:
+        name (str): Name to identify the layout.
+        frame (QFrame): The QFrame to apply the layout to.
+        splitter (QSplitter, optional): The QSplitter to add to the layout. Defaults to None.
+        layout_type (str, optional): Type of layout ('QH' for QHBoxLayout, 'QV' for QVBoxLayout). Defaults to 'QH'.
+    """
     if layout_type == 'QH':
         layout = QHBoxLayout(frame)
     else:

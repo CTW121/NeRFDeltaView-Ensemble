@@ -14,17 +14,27 @@ from PyQt6.QtWidgets import QApplication, QMainWindow, QVBoxLayout, QWidget
 # from scipy.stats import kde
 from scipy import stats
 
-# class ScatterPlot(QVBoxLayout):
 class ScatterPlot(QWidget):
+    """
+    A PyQt6 widget for displaying a scatter plot with a density plot overlay
+    and supporting interactive selection of data points using a lasso selector tool.
+    """
 
     def __init__(self, widget, selectInd, data):
+        """
+        Initializes the ScatterPlot widget.
+
+        Parameters:
+            widget (QWidget): The parent widget.
+            selectInd (function): A function for handling selected indices.
+            data (numpy.ndarray): The input data for the scatter plot.
+        """
         super().__init__()
 
         # self.data = np.random.rand(10, 2)
         self.data = data
         self._main = QVBoxLayout(widget)
 
-        # layout = QVBoxLayout(self._main)
         canvas = FigureCanvas(Figure(figsize=(10,10)))
         self._main.addWidget(canvas)
 
@@ -42,11 +52,17 @@ class ScatterPlot(QWidget):
         self.create_scatterplot()
 
     def create_scatterplot(self):
+        """
+        Creates the scatter plot.
+        """
         self.selected_ind = []
         # self.scatter_pts = self.ax.scatter(self.data[:, 0], self.data[:, 1], color='red', s=20, edgecolor='none')
         self.scatter_pts = self.ax.scatter(self.data[:, 0], self.data[:, 1], color='magenta', s=20, edgecolor='none')
         
     def create_density_plot(self):
+        """
+        Creates the density plot.
+        """
         nbins = 80
         # data = self.data
         # k = stats.gaussian_kde([data[:, 0], data[:, 1]])
@@ -58,9 +74,15 @@ class ScatterPlot(QWidget):
         density_plot = self.ax.pcolormesh(xi, yi, zi.reshape(xi.shape), shading='auto', cmap=plt.cm.Blues)
         self.fig.colorbar(density_plot)
 
-        # https://stackoverflow.com/questions/32462881/add-colorbar-to-existing-axis
-
     def select_from_collection(self, ax, collection, alpha_other=0.0):
+        """
+        Enables selection of data points using a lasso selector tool.
+
+        Parameters:
+            ax: The axes object.
+            collection: Collection of scatter points.
+            alpha_other (float): The alpha value for unselected points.
+        """
         figure = self.ax.figure
         canvas = figure.canvas
         alpha_other = alpha_other
@@ -122,27 +144,3 @@ class ScatterPlot(QWidget):
 
         return ind, disconnect
         # return selected_pts, disconnect
-        
-# if __name__ == '__main__':
-
-#     qapp = QApplication.instance()
-#     if not qapp:
-#         qapp = QApplication(sys.argv)
-
-#     window = QMainWindow()
-
-#     widget = QWidget()
-#     window.setCentralWidget(widget)
-
-#     layout = LassoLayout(widget)
-#     window.show()
-#     window.activateWindow()
-
-#     ind, disconnect = layout.select_from_collection(layout.ax, layout.pts)
-#     if len(ind) == 0:
-#         fc = layout.pts.get_facecolors()
-#         fc[:, -1] = 1
-#         layout.pts.set_facecolors(fc)
-
-#     window.raise_()
-#     qapp.exec()
