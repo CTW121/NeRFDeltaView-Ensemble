@@ -14,6 +14,13 @@ from helpers import helpers
 def similarity_vectors(vector1, vector2):
     """
     Calculate the angle in degrees between two vectors.
+
+    Parameters:
+        vector1 (numpy.ndarray): First vector.
+        vector2 (numpy.ndarray): Second vector.
+
+    Returns:
+        tuple: Angle between the vectors in degrees, cosine similarity.
     """
     dot_product = np.dot(vector1, vector2)
     norm_vector1 = np.linalg.norm(vector1)
@@ -27,7 +34,17 @@ def similarity_vectors(vector1, vector2):
 
 
 def main():
+    """
+    Main function to perform the rendering and analysis.
 
+    The function sets up the rendering environment for isosurface, color uncertainty, and density uncertainty.
+    It calculates the mean and standard deviation of color and density uncertainty under different camera orientations.
+    Finally, it saves the calculated means and standard deviations into CSV files.
+
+    Note:
+        This function requires the helpers module for VTK operations.
+
+    """
     colors = vtk.vtkNamedColors()
 
     dataset = "chair"            # dataset: lego / hotdog / chair
@@ -135,13 +152,16 @@ def main():
 
     for i in range(azimuth_len):
         for j in range(elevation_len):
+            # Reset camera orientation
             helpers.vtk_set_orientation(renderer_isosurface, original_orient)
             helpers.vtk_set_orientation(renderer_color, original_orient)
             helpers.vtk_set_orientation(renderer_density, original_orient)
 
+            # Rotate the camera
             camera.Azimuth(azimuth[i]) # east-west
             camera.Elevation(elevation[j]) # north-south
 
+            # Adjust view up vector based on cosine similarity
             # https://discourse.vtk.org/t/vtkrenderer-error/6143/2
             view_up_vector = camera.GetViewUp()
             view_plane_normal = camera.GetViewPlaneNormal()
@@ -153,7 +173,8 @@ def main():
                 camera.SetViewUp(0.0, 0.0, 1.0)
             else:
                 camera.SetViewUp(0.0, 1.0, 0.0)
-                
+            
+            # Reset and render the viewports
             renderer_isosurface.ResetCamera()
             renderer_color.SetActiveCamera(camera)
             renderer_color.ResetCamera()
@@ -192,6 +213,7 @@ def main():
             render_window_color.Render()
             render_window_density.Render()
 
+            # Calculate mean and standard deviation of color uncertainty
             mean_color, standard_deviation_color = helpers.mean_standard_deviation(azimuth_len, elevation_len, render_window_color)
             mean_density, standard_deviation_density = helpers.mean_standard_deviation(azimuth_len, elevation_len, render_window_density)
 
