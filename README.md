@@ -15,9 +15,9 @@ Ensure you have met the following requirements:
 
 We recommend running the application using [**conda**](https://docs.conda.io/en/latest/).
 
-## Launch the Visualization Tool Application
+## How to launch the Visualization Tool Application?
 
-To run the NeRFDeltaView Ensemble visualization tool application, follow these steps:
+To launch the NeRFDeltaView Ensemble visualization tool application, follow these steps:
 
 1. Copy the trained model (checkpoint and yml files) from [NeRF Uncertainty Ensemble](https://github.com/CTW121/NeRF-Uncertainty-Ensemble) to the [VTK_writer](https://github.com/CTW121/NeRFDeltaView-Ensemble/tree/master/VTK_writer) folder.
 
