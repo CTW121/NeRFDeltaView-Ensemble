@@ -932,9 +932,7 @@ def NeRFDeltaView():
     style_colorUnc = helpers.vtk_create_interactor_style(interactor_opacity_colorUnc)
     style_densityUnc = helpers.vtk_create_interactor_style(interactor_opacity_densityUnc)
 
-    # opacity_tf_Opacity = helpers.vtk_create_piecewise_function([[0.00, 0.00], [0.60, 1.00], [1.00, 1.00]])
     opacity_tf_Opacity = helpers.vtk_create_piecewise_function([[0.00, 0.00], [0.60, 1.00], [1.00, 0.99]])
-    # alpha_tf_Opacity = helpers.vtk_create_color_transfer_function("RGB", [[0.00, 0.0, 0.0, 0.0], [1.00, 0.0, 1.0, 0.0]])
     alpha_tf_Opacity = helpers.vtk_create_color_transfer_function("RGB", [[0.00, 0.0, 0.0, 0.0], [1.00, 1.0, 1.0, 1.0]])
     volume_property_Opacity = helpers.vtk_volume_property(alpha_tf_Opacity, opacity_tf_Opacity)
     volume_mapper_Opacity = helpers.vtk_volume_ray_cast_mapper(opacity_reader)
@@ -944,7 +942,6 @@ def NeRFDeltaView():
     """
     Color uncertainty
     """
-    # opacity_tf_color_uncertainty = helpers.vtk_create_piecewise_function([[0.00, 0.00], [0.80, 0.00], [0.85, 1.00]])
     opacity_tf_color_uncertainty = helpers.vtk_create_piecewise_function([[0.00, 0.00], [0.85, 1.00]])
     alpha_tf_color_uncertainty = helpers.vtk_create_color_transfer_function("RGB", [[0.00, 1.0, 1.0, 1.0], [1.00, 1.0, 0.0, 0.0]])
     volume_property_color_uncertainty = helpers.vtk_volume_property(alpha_tf_color_uncertainty, opacity_tf_color_uncertainty)
@@ -955,12 +952,8 @@ def NeRFDeltaView():
     """
     Density uncertainty
     """
-    # opacity_tf_density_uncertainty = helpers.vtk_create_piecewise_function([[0.00, 0.00], [0.10, 0.00], [0.20, 1.00]])
-    # opacity_tf_density_uncertainty = helpers.vtk_create_piecewise_function([[0.00, 0.00], [0.20, 1.00]])
-    # opacity_tf_density_uncertainty = helpers.vtk_create_piecewise_function([[0.00, 0.00], [0.20, 0.00], [0.60, 1.00]])
     opacity_tf_density_uncertainty = helpers.vtk_create_piecewise_function([[0.00, 0.00], [0.60, 1.00]])
     alpha_tf_density_uncertainty = helpers.vtk_create_color_transfer_function("RGB", [[0.00, 1.0, 1.0, 1.0], [1.00, 1.0, 0.647, 0.0]])
-    # alpha_tf_density_uncertainty = helpers.vtk_create_color_transfer_function("RGB", [[0.00, 1.0, 1.0, 1.0], [1.00, 1.0, 0.5, 0.0]])  # orange
     volume_property_density_uncertainty = helpers.vtk_volume_property(alpha_tf_density_uncertainty, opacity_tf_density_uncertainty)
     volume_mapper_density_uncertainty = helpers.vtk_volume_ray_cast_mapper(density_uncertainty_reader)
     volume_density_uncertainty = helpers.vtk_create_volume(volume_mapper_density_uncertainty, volume_property_density_uncertainty)
@@ -1072,20 +1065,11 @@ def NeRFDeltaView():
     camera for all render windows
     """
     camera = renderer_isosurface.GetActiveCamera()
-    # camera.Zoom(5.0)
-    # camera.Dolly(0.2)
-    # camera.Azimuth(-30)
-    # camera.Elevation(30)
-    # camera.Azimuth(90) # east-west
-    # camera.Elevation(0) # north-south
 
     original_orient = helpers.vtk_get_orientation(renderer_isosurface)
     
     camera.Zoom(5.0)
     camera.Dolly(0.2)
-    # camera.Azimuth(-30)
-    # camera.Elevation(-85)
-    # camera.Roll(45)
     camera.Pitch(45)
     camera.Yaw(-80)
 
@@ -1206,14 +1190,11 @@ def NeRFDeltaView():
         helpers.vtk_get_orientation(renderer_isosurface)
         # camera = renderer_isosurface.GetActiveCamera()
         matrix = camera.GetModelViewTransformMatrix()
-        # print("camera transform matrix", matrix)
         
         rotation_matrix = np.eye(4)
         for row in range(3):
             for col in range(3):
                 rotation_matrix[row, col] = matrix.GetElement(row, col)
-        # rotation_matrix[:3, -1] = 0.0
-        # print(rotation_matrix)
 
         # Get the camera position and focal point
         cameraPosition = camera.GetPosition()
@@ -1222,7 +1203,6 @@ def NeRFDeltaView():
         # Calculate the vector between camera and focal point
         vector = np.array([cameraPosition[i] - focalPoint[i] for i in range(3)])
         vector_magnitude = np.linalg.norm(vector)
-        # print("vector_magnitude: ", vector_magnitude)
 
         # rendered 3D scene using PyTorch
         focal_length = 1200
@@ -1279,25 +1259,6 @@ def NeRFDeltaView():
     For showing azimuth, elevation and the uncertainty value selected from
     color and density uncertainty heatmaps
     """
-    # heatmap_color_label_layout = QVBoxLayout()
-    # heatmap_color_label_layout.setContentsMargins(0, 30, 0, 5)
-
-    # label_heatmap_color_text = "<h4 style='color:Green;'> Color uncertainty <br> mean and standard deviation <br> for the selected viewing direction </h4> <p> Azimuth: <br> Elevation: <br> Mean: <br> Standard deviation: </p>"
-    # label_heatmap_color = QLabel(label_heatmap_color_text)
-    # # label_heatmap_color.setStyleSheet("border: 1px solid black; padding: 10px;")
-    # label_heatmap_color.setStyleSheet("border: 0px;")
-    # heatmap_color_label_layout.addWidget(label_heatmap_color)
-
-
-    # heatmap_density_label_layout = QVBoxLayout()
-    # heatmap_density_label_layout.setContentsMargins(0, 30, 0, 5)
-
-    # label_heatmap_density_text = "<h4 style='color:Green;'> Density uncertainty <br> mean and standard deviation <br> for the selected viewing direction </h4> <p> Azimuth: <br> Elevation: <br> Mean: <br> Standard deviation: </p>"
-    # label_heatmap_density = QLabel(label_heatmap_density_text)
-    # # label_heatmap_density.setStyleSheet("border: 1px solid black; padding: 10px;")
-    # label_heatmap_density.setStyleSheet("border: 0px;")
-    # heatmap_density_label_layout.addWidget(label_heatmap_density)
-
     heatmap_label_layout = QVBoxLayout()
     heatmap_label_layout.setContentsMargins(0, 30, 0, 5)
 
@@ -1348,20 +1309,12 @@ def NeRFDeltaView():
     npoints_colorUncertainty = color_uncertainty_volume.GetNumberOfPoints()
     npoints_colorUncertainty_ind = np.arange(npoints_colorUncertainty)
     # data_colorUncertainty_numpy = numpy_support.vtk_to_numpy(data_colorUncertainty)
-    # print("data_colorUncertainty_numpy: \n", np.unique(data_colorUncertainty_numpy))
-    # print("npoints_colorUncertainty: ", npoints_colorUncertainty)
 
     data_densityUncertainty = density_uncertainty_volume.GetPointData().GetScalars()
     # data_densityUncertainty_numpy = numpy_support.vtk_to_numpy(data_densityUncertainty)
-    # print("data_densityUncertainty_numpy: \n", np.unique(data_densityUncertainty_numpy))
 
     def selectedInd(ind):
-        # print("ind: ", ind)
         if len(ind) > 0:
-            # data = np.array([0.0]*npoints_colorUncertainty)
-            # data[ind] = 1.0
-            # alpha = numpy_support.numpy_to_vtk(num_array=data, deep=True)
-
             # color_uncertainty_volume.GetPointData().SetScalars(alpha)
             # density_uncertainty_volume.GetPointData().SetScalars(alpha)
 
@@ -1448,33 +1401,11 @@ def NeRFDeltaView():
         layout_tab1.addWidget(UI_helpers.frame_dict['frame_tab1_10'], 1, 0)
         layout_tab1.addWidget(UI_helpers.frame_dict['frame_tab1_11'], 1, 1)
 
-        # Testing different layout
-        # UI_helpers.create_frame('frame_tab1_02', frame_style_sheet_border, width=500, height=500)
-        # UI_helpers.create_frame('frame_tab1_12', frame_style_sheet_border, width=500, height=500)
-        # layout_tab1.addWidget(UI_helpers.frame_dict['frame_tab1_02'], 0, 2)
-        # layout_tab1.addWidget(UI_helpers.frame_dict['frame_tab1_12'], 1, 2)
-
 
         """
         Transfer function (Opacity)
         Histogram opacity for scene: position on the background of scene opacity transfer function
         """
-        # frame_tab1_01 = UI_helpers.frame_dict['frame_tab1_01']
-        # interactor_tf_opacity = QVTKRenderWindowInteractor(frame_tab1_01)
-        # interactor_dict['interactor_tf_opacity'] = interactor_tf_opacity
-        # frame_tab1_01.resizeEvent = lambda event: helpers.vtk_resize_render_window(frame_tab1_01, interactor_tf_opacity)
-
-        # data_opacity, dims_opacity = helpers.vtk_structured_point_value_array(opacity_reader)
-        # data_opacity = np.array(opacity_volume.GetPointData().GetScalars())
-        # hist_norm_opacity = helpers.create_histogram_array(data_opacity, num_bins=20, filter=False)
-
-        # view_tf_scene, chart_tf_scene, item_tf_scene, control_points_tf_scene, histogram_scene = helpers.vtk_create_transfer_function("Scene", "Optical property (opacity and color)", 
-        #                                                 "Scalar value", alpha_tf_Opacity, opacity_tf_Opacity, data=hist_norm_opacity)
-        # view_tf_scene.SetRenderWindow(interactor_tf_opacity.GetRenderWindow())
-        # histogram_dict['histogram_scene'] = histogram_scene
-
-        # control_points_tf_scene.AddObserver(vtk.vtkCommand.ModifiedEvent, onTransferFunctionPointModified)
-
         frame_tab1_01_top = UI_helpers.frame_dict['frame_tab1_01_top']
         interactor_opacity = QVTKRenderWindowInteractor(frame_tab1_01_top)
         interactor_dict['interactor_opacity'] = interactor_opacity
@@ -1516,11 +1447,6 @@ def NeRFDeltaView():
             global radio_button_opacity
             if radio_button_scene_geometry.isChecked():
                 radio_button_opacity = True
-                # print("Checked")
-                # try:
-                #     chart_dict['historgram_chart'].GetScene().AddPlot(isosurface_dict['isosurface_value'])  # Add the isosurface to the scene
-                # except Exception as error:
-                #     print("An error occurred:", error)
                 isosurface_dict['isosurface_value'].SetInputData(helpers.vtk_create_vertical_line_table(line=True), 0, 1)
 
                 renderer_opacity_colorUnc.AddVolume(volume_opacity)
@@ -1530,11 +1456,6 @@ def NeRFDeltaView():
 
             else:
                 radio_button_opacity = False
-                # print("Unchecked")
-                # try:
-                #     chart_dict['historgram_chart'].GetScene().RemovePlot(isosurface_dict['isosurface_value'])  # Remove the isosurface from the scene
-                # except Exception as error:
-                #     print("An error occurred:", error)
                 isosurface_dict['isosurface_value'].SetInputData(helpers.vtk_create_vertical_line_table(line=False), 0, 1)
 
                 renderer_opacity_colorUnc.RemoveVolume(volume_opacity)
@@ -1604,11 +1525,6 @@ def NeRFDeltaView():
         """
         Scatter plot
         """
-        # data_color_uncertainty, dims_color_uncertainty = helpers.vtk_structured_point_value_array(color_uncertainty_reader)
-        # data_color_uncertainty = np.array(color_uncertainty_volume.GetPointData().GetScalars())
-        # data_density_uncertainty, dims_density_uncertainty = helpers.vtk_structured_point_value_array(density_uncertainty_reader)
-        # data_density_uncertainty = np.array(density_uncertainty_volume.GetPointData().GetScalars())
-        # data_scatter_plot = np.column_stack((data_color_uncertainty, data_density_uncertainty))
         data_scatter_plot = np.column_stack((data_color, data_density))
 
         n_data_scatter_plot = data_scatter_plot.shape[0]
@@ -1618,13 +1534,6 @@ def NeRFDeltaView():
         # mask
         mask = (data_scatter_plot_3_columns[:,0] <= color_uncertainty_filter) | (data_scatter_plot_3_columns[:,1] <= density_uncertainty_filter)
         filtered_data_scatter_plot_3_columns = data_scatter_plot_3_columns[~mask]
-
-        # data_test = np.random.rand(10, 2)
-        # scatter_plot = ScatterPlot(UI_helpers.frame_dict['frame_tab1_11'], selectedInd, data=filtered_data_test)
-        # scatter_plot_dict["scatter_plot"] = scatter_plot
-
-        # scatter_plot = ScatterPlot(UI_helpers.frame_dict['frame_tab1_11'], selectedInd, data=data_scatter_plot)
-        # scatter_plot_dict["scatter_plot"] = scatter_plot
 
         scatter_plot = ScatterPlot(UI_helpers.frame_dict['frame_tab1_11'], selectedInd, data=filtered_data_scatter_plot_3_columns)
         scatter_plot_dict["scatter_plot"] = scatter_plot
@@ -1662,23 +1571,6 @@ def NeRFDeltaView():
     density_means_normalize = normalize_array(density_means_)
     density_standard_deviation_normalize = normalize_array(density_standard_deviation_)
 
-    # color_means_x_shift = np.hstack((color_means[:, 12:], color_means[:, :12]))
-    # color_means_ = np.vstack((color_means_x_shift[12:, :], color_means_x_shift[:12, :]))
-
-    # color_standard_deviation_x_shift = np.hstack((color_standard_deviation[:, 12:], color_standard_deviation[:, :12]))
-    # color_standard_deviation_ = np.vstack((color_standard_deviation_x_shift[12:, :], color_standard_deviation_x_shift[:12, :]))
-
-    # density_means_x_shift = np.hstack((density_means[:, 12:], density_means[:, :12]))
-    # density_means_ = np.vstack((density_means_x_shift[12:, :], density_means_x_shift[:12, :]))
-
-    # density_standard_deviation_x_shift = np.hstack((density_standard_deviation[:, 12:], density_standard_deviation[:, :12]))
-    # density_standard_deviation_ = np.vstack((density_standard_deviation_x_shift[12:, :], density_standard_deviation_x_shift[:12, :]))
-
-    # color_means_ = color_means
-    # color_standard_deviation_ = color_standard_deviation
-    # density_means_ = density_means
-    # density_standard_deviation_ = density_standard_deviation
-
     def tab2_mean_sd(tab):
         layout_tab2 = QGridLayout(tab)
 
@@ -1715,15 +1607,8 @@ def NeRFDeltaView():
             global radio_button_opacity
 
             if event.xdata is not None and event.ydata is not None:
-                # x, y = int(event.xdata + 0.5), int(event.ydata + 0.5)
-                # azimuth_, elevation_ = int(event.ydata + 0.5)*15-180.0, int(event.xdata + 0.5)*15-180.0
                 y, x = int(event.ydata + 0.5), int(event.xdata + 0.5)
-                # y, x = round(event.ydata + 0.5)-24, round(event.xdata + 0.5)-24
-                # print("x: {}    |   y: {}".format(x, y))
                 azimuth, elevation = int(event.ydata + 0.5)*15-180.0, int(event.xdata + 0.5)*15-180.0
-                # azimuth = int(event.ydata + 0.5)*15
-                # elevation = 360-int(event.xdata + 0.5)*15+270.0 if int(event.xdata + 0.5)*15<90.0 else 360-int(event.xdata + 0.5)*15-90.0
-                # print("Clicked on cell: azimuth={}, elevation={}, value={:.3f}".format(azimuth, elevation, color_means[x, y]))
                 
                 helpers.vtk_set_orientation(renderer_isosurface, original_orient)
                 helpers.vtk_set_orientation(renderer_opacity_colorUnc, original_orient)
@@ -1785,8 +1670,6 @@ def NeRFDeltaView():
                 interactor_opacity_densityUnc.GetRenderWindow().Render()
 
                 # Display selected azimuth, elevation and values from the heatmap on the QLabel
-                ### label_heatmap_text = "<h4 style='color:Green;'> Mean and standard deviation (SD) <br> from heatmap </h4> <p> Azimuth: <br> Elevation: <br> <br> Color mean: <br> Color SD: <br> <br> Density mean: <br> Density SD: </p>"
-                ### label_heatmap_text = "<h4 style='color:Green;'> Color uncertainty from color heatmap </h4> <p> Azimuth: {} <br> Elevation: {} <br> Value: {:.4f}</p>".format(azimuth, elevation, color_means[x, y])
                 label_heatmap_text = "<h4 style='color:Green;'> Mean and standard deviation (SD) <br> from heatmap </h4> <p> Elevation (Φ): {} <br> Azimuth (θ): {} <br> <br> Color mean: {:.6f} <br> Color SD: {:.6f} <br> <br> Density mean: {:.6f} <br> Density SD: {:.6f} </p>" \
                                     .format(elevation, azimuth, color_means_[y, x], color_standard_deviation_[y, x], density_means_[y, x], density_standard_deviation_[y, x])
                 label_heatmap.setText(label_heatmap_text)
@@ -1808,20 +1691,6 @@ def NeRFDeltaView():
         heat_map_density_means = HeatMap(UI_helpers.frame_dict['frame_tab2_10'], data=density_means_, vmin=density_mean_min, vmax=density_mean_max, data_angles=angles_, title="Mean density uncertainty in each direction", color='Oranges', file_name="density_uncertainty_means")
         heat_map_density_standard_deviations = HeatMap(UI_helpers.frame_dict['frame_tab2_11'], data=density_standard_deviation_, vmin=density_stddev_min, vmax=density_stddev_max, data_angles=angles_, title="Standard deviation density uncertainty in each direction", color='Oranges', file_name="density_uncertainty_SD")
 
-        # color_means_normalize[0:6, :] = np.nan
-        # color_means_normalize[19:, :] = np.nan
-        # color_standard_deviation_normalize[0:6, :] = np.nan
-        # color_standard_deviation_normalize[19:, :] = np.nan
-        # heat_map_color_means = HeatMap(UI_helpers.frame_dict['frame_tab2_00'], data=color_means_normalize, vmin=0.00, vmax=1.00, data_angles=angles_, title="Normalized mean color uncertainty in each direction", color='Reds', file_name="color_uncertainty_means")
-        # heat_map_color_standard_deviations = HeatMap(UI_helpers.frame_dict['frame_tab2_01'], data=color_standard_deviation_normalize, vmin=0.00, vmax=1.00, data_angles=angles_, title="Normalized std dev color uncertainty in each direction", color='Reds', file_name="color_uncertainty_SD")
-
-        # density_means_normalize[0:6, :] = np.nan
-        # density_means_normalize[19:, :] = np.nan
-        # density_standard_deviation_normalize[0:6, :] = np.nan
-        # density_standard_deviation_normalize[19:, :] = np.nan
-        # heat_map_density_means = HeatMap(UI_helpers.frame_dict['frame_tab2_10'], data=density_means_normalize, vmin=0.00, vmax=1.00, data_angles=angles_, title="Normalized mean density uncertainty in each direction", color='Oranges', file_name="density_uncertainty_means")
-        # heat_map_density_standard_deviations = HeatMap(UI_helpers.frame_dict['frame_tab2_11'], data=density_standard_deviation_normalize, vmin=0.00, vmax=1.00, data_angles=angles_, title="Normalized std dev density uncertainty in each direction", color='Oranges', file_name="density_uncertainty_SD")
-
         heatmap_dict['heat_map_color_means'] = heat_map_color_means
         heatmap_dict['heat_map_color_standard_deviations'] = heat_map_color_standard_deviations
         heatmap_dict['heat_map_density_means'] = heat_map_density_means
@@ -1831,10 +1700,7 @@ def NeRFDeltaView():
         global cid_heat_map_color_standard_deviations
         global cid_heat_map_density_means
         global cid_heat_map_density_standard_deviations
-        # cid_heat_map_color_means = heat_map_color_means.fig.canvas.mpl_connect('button_press_event', heatmap_motion)
-        # cid_heat_map_color_standard_deviations = heat_map_color_standard_deviations.fig.canvas.mpl_connect('button_press_event', heatmap_motion)
-        # cid_heat_map_density_means = heat_map_density_means.fig.canvas.mpl_connect('button_press_event', heatmap_motion)
-        # cid_heat_map_density_standard_deviations = heat_map_density_standard_deviations.fig.canvas.mpl_connect('button_press_event', heatmap_motion)
+
         cid_heat_map_color_means = heat_map_color_means.fig.canvas.mpl_connect('motion_notify_event', heatmap_motion)
         cid_heat_map_color_standard_deviations = heat_map_color_standard_deviations.fig.canvas.mpl_connect('motion_notify_event', heatmap_motion)
         cid_heat_map_density_means = heat_map_density_means.fig.canvas.mpl_connect('motion_notify_event', heatmap_motion)
@@ -1848,15 +1714,12 @@ def NeRFDeltaView():
         def heatmap_onpick(event):
             global y_pick, x_pick, azimuth_pick, elevation_pick
             y_pick, x_pick = int(event.ydata + 0.5), int(event.xdata + 0.5)
-            # y_pick, x_pick = round(event.ydata + 0.5), round(event.xdata + 0.5)
-            # azimuth_pick, elevation_pick = int(event.ydata + 0.5)*15, int(event.xdata + 0.5)*15
             azimuth_pick = int(event.ydata + 0.5)*15
             elevation_pick = int(event.xdata + 0.5)*15+270.0 if int(event.xdata + 0.5)*15<90.0 else int(event.xdata + 0.5)*15-90.0
             
             global heatmap_click
             if y_pick>=90/15 and y_pick<=270/15:
                 heatmap_click = not heatmap_click  # Toggle the click state
-            # print(heatmap_click)
 
             global cid_heat_map_color_means
             global cid_heat_map_color_standard_deviations
@@ -1865,22 +1728,15 @@ def NeRFDeltaView():
 
             if y_pick>=90/15 and y_pick<=270/15:
                 if heatmap_click:
-                    # print("azimuth_pick: ", azimuth_pick)
-                    # print("elevation_pick: ", elevation_pick)
                     heat_map_color_means.fig.canvas.mpl_disconnect(cid_heat_map_color_means)
                     heat_map_color_standard_deviations.fig.canvas.mpl_disconnect(cid_heat_map_color_standard_deviations)
                     heat_map_density_means.fig.canvas.mpl_disconnect(cid_heat_map_density_means)
                     heat_map_density_standard_deviations.fig.canvas.mpl_disconnect(cid_heat_map_density_standard_deviations)
 
                     # Create a rectangle on the heatmap
-                    # print("x_pick: {}   |   y_pick: {}".format(x_pick, y_pick))
                     heatmap_selection_square(x_pick, y_pick)
 
                 else:
-                    # cid_heat_map_color_means = heat_map_color_means.fig.canvas.mpl_connect('button_press_event', heatmap_motion)
-                    # cid_heat_map_color_standard_deviations = heat_map_color_standard_deviations.fig.canvas.mpl_connect('button_press_event', heatmap_motion)
-                    # cid_heat_map_density_means = heat_map_density_means.fig.canvas.mpl_connect('button_press_event', heatmap_motion)
-                    # cid_heat_map_density_standard_deviations = heat_map_density_standard_deviations.fig.canvas.mpl_connect('button_press_event', heatmap_motion)
                     cid_heat_map_color_means = heat_map_color_means.fig.canvas.mpl_connect('motion_notify_event', heatmap_motion)
                     cid_heat_map_color_standard_deviations = heat_map_color_standard_deviations.fig.canvas.mpl_connect('motion_notify_event', heatmap_motion)
                     cid_heat_map_density_means = heat_map_density_means.fig.canvas.mpl_connect('motion_notify_event', heatmap_motion)
@@ -1889,10 +1745,6 @@ def NeRFDeltaView():
                     # Remove the rectangle on the heatmap
                     heatmap_selection_square(x_pick, y_pick)
 
-        # heat_map_color_means.fig.canvas.mpl_connect('button_press_event', heatmap_onpick)
-        # heat_map_color_standard_deviations.fig.canvas.mpl_connect('button_press_event', heatmap_onpick)
-        # heat_map_density_means.fig.canvas.mpl_connect('button_press_event', heatmap_onpick)
-        # heat_map_density_standard_deviations.fig.canvas.mpl_connect('button_press_event', heatmap_onpick)
         heat_map_color_means.fig.canvas.mpl_connect('button_press_event', heatmap_onpick)
         heat_map_color_standard_deviations.fig.canvas.mpl_connect('button_press_event', heatmap_onpick)
         heat_map_density_means.fig.canvas.mpl_connect('button_press_event', heatmap_onpick)
@@ -1927,26 +1779,10 @@ def NeRFDeltaView():
     """
     Initiate and start QVTK render window interactor
     """
-    # interactor_isosurface.Initialize()
-    # interactor_isosurface.Start()
-
-    # interactor_opacity_colorUnc.Initialize()
-    # interactor_opacity_colorUnc.Start()
-
-    # interactor_opacity_densityUnc.Initialize()
-    # interactor_opacity_densityUnc.Start()
-
-    # interactor_tf_opacity.show()
-    # interactor_tf_opacity.Initialize()
-    # interactor_tf_opacity.Start()
-
-
-    # # show the widget
-    #window.setLayout(layout)
     window.show()
 
     # Call the zBuffer function for the first time
-    zBuffer(None, None)                           # <=== !!! IMPORTANT !!!
+    zBuffer(None, None)
 
     selected_pts, disconnect = scatter_plot_dict["scatter_plot"].select_from_collection(
         scatter_plot_dict["scatter_plot"].ax, scatter_plot_dict["scatter_plot"].scatter_pts)    # <=== !!! IMPORTANT !!!
