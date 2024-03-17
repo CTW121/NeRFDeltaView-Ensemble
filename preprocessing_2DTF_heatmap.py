@@ -152,6 +152,10 @@ def main():
 
     for i in range(azimuth_len):
         for j in range(elevation_len):
+            """
+            Loop through azimuth and elevation angles to render different viewpoints and 
+            calculate mean and standard deviation of z-buffer data.
+            """
             # Reset camera orientation
             helpers.vtk_set_orientation(renderer_isosurface, original_orient)
             helpers.vtk_set_orientation(renderer_color, original_orient)
@@ -162,7 +166,6 @@ def main():
             camera.Elevation(elevation[j]) # north-south
 
             # Adjust view up vector based on cosine similarity
-            # https://discourse.vtk.org/t/vtkrenderer-error/6143/2
             view_up_vector = camera.GetViewUp()
             view_plane_normal = camera.GetViewPlaneNormal()
 
