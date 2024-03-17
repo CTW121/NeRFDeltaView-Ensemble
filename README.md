@@ -23,7 +23,7 @@ To launch the NeRFDeltaView Ensemble visualization tool application, follow thes
 
 2. Within the [VTK_writer](https://github.com/CTW121/NeRFDeltaView-Ensemble/tree/master/VTK_writer) folder, execute `python vtk_writer.py` to generate the VTK 3D volumetric data files (estimated opacity, color, and density). Then, copy these VTK 3D volumetric data files to the [data](https://github.com/CTW121/NeRFDeltaView-Ensemble/tree/master/data) folder.
 
-3. Run `Python preprocessing_2DTF_heatmap.py` to produce CSV files containing color and density means, as well as standard deviations for heatmap visualization.
+3. Run `python preprocessing_2DTF_heatmap.py` to produce CSV files containing color and density means, as well as standard deviations for heatmap visualization.
 
 4. Run `python NeRFDeltaView.py` to launch the visualization tool application.
 
