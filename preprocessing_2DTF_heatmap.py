@@ -130,22 +130,25 @@ def main():
     renderer_density.AddVolume(volume_density_uncertainty)
     renderer_density.SetBackground(colors.GetColor3d('Black'))
 
-
+    # Set camera and orientation
     camera = renderer_isosurface.GetActiveCamera()
     original_orient = helpers.vtk_get_orientation(renderer_isosurface)
     print("original_orient: ", original_orient["orientation"])
 
+    # Define azimuth and elevation angles
     azimuth = [i for i in range(0, 360+1, 15)]    # east-west
     elevation = [i for i in range(0, 360+1, 15)]  # north-south
     azimuth_len = len(azimuth)
     elevation_len = len(elevation)
 
+    # Initialize arrays for mean and standard deviation
     means_color = np.zeros((azimuth_len, elevation_len))
     standard_deviations_color = np.zeros((azimuth_len, elevation_len))
 
     means_density = np.zeros((azimuth_len, elevation_len))
     standard_deviations_density = np.zeros((azimuth_len, elevation_len))
 
+    # Initialize arrays for z-buffer data
     z_buffer_data_isosurface = vtk.vtkFloatArray()
     z_buffer_data_color_uncertainty = vtk.vtkFloatArray()
     z_buffer_data_density_uncertainty = vtk.vtkFloatArray()
